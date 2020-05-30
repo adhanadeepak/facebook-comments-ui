@@ -22,6 +22,7 @@ import Comment from "components/comment";
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 import CommentIcon from '@material-ui/icons/Comment';
+import SamplePost from 'config/post';
 
 //  Images
 import Pic1 from "assets/images/pic1.jpg";
@@ -88,6 +89,7 @@ export default function Index(props) {
           id: generateId(),
           content: reply,
           user_name: userName,
+          parent_comment_id: editReply.id,
           isComment: false,
           liked: false,
         });
@@ -95,6 +97,7 @@ export default function Index(props) {
         tempReply[editReply.id] = [];
         tempReply[editReply.id].push({
           id: generateId(),
+          parent_comment_id: editReply.id,
           content: reply,
           user_name: userName,
           isComment: false,
@@ -107,7 +110,7 @@ export default function Index(props) {
       setReplies(tempReply);
       setReply("");
     }
-    else if(reply){
+    else if(reply && posts){
       console.log(2);
       let tempPosts = {...posts};
       let commentId =  generateId();
@@ -129,6 +132,9 @@ export default function Index(props) {
     if (localStorage["posts"]) {
       let post = JSON.parse(localStorage["posts"]);
       setPosts(post);
+    }
+    else{
+      setPosts(SamplePost);
     }
 
     if (localStorage["replies"]) {
@@ -214,7 +220,7 @@ export default function Index(props) {
                     <Comment
                       comment={comment}
                       Replies={Replies}
-                      setReply={setReply}
+                      setReply={setReplies}
                       posts={posts}
                       setPosts={setPosts}
                       onReply={onReply}

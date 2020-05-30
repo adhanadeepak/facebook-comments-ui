@@ -54,13 +54,12 @@ function Index(props) {
     else{
       let tempReply = { ...props.Replies };
       console.log('tempReply', tempReply);
-
-      console.log('id', props.comment.id);
+      let parentCommentId = props.comment.parent_comment_id;
       
-      if (tempReply[props.comment.id] && Array.isArray(tempReply[props.comment.id])) {
+      if (tempReply[parentCommentId] && Array.isArray(tempReply[parentCommentId])) {
         console.log(22);
-        tempReply[props.comment.id].find((reply, i, commentList) => {
-          if(reply.id === props.comment){
+        tempReply[parentCommentId].find((reply, i, commentList) => {
+          if(reply.id === props.comment.id){
             commentList[i] = {
               ...reply,
               liked: !reply.liked,
